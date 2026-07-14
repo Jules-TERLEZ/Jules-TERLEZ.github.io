@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jules Terlez — Data Analyst</title>
+<meta name="description" content="Portfolio de Jules Terlez, Data Analyst — SQL, Python, Tableau, Power BI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0B1220;
+    --panel: #121B2E;
+    --panel-2: #16213A;
+    --line: #223050;
+    --text: #E7ECF3;
+    --text-dim: #8B96A8;
+    --teal: #2FE0C4;
+    --teal-dim: #1B7A6B;
+    --amber: #F5A623;
+    --radius: 14px;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-attachment: fixed;
+    background-position: -1px -1px;
+  }
+  body::before{
+    content:"";
+    position: fixed; inset:0;
+    background: radial-gradient(ellipse 900px 500px at 15% -5%, rgba(47,224,196,0.14), transparent 60%),
+                radial-gradient(ellipse 700px 500px at 100% 10%, rgba(245,166,35,0.10), transparent 60%),
+                var(--bg);
+    background-color: transparent;
+    z-index: -1;
+  }
+
+  a{ color: inherit; text-decoration: none; }
+  img{ max-width: 100%; display:block; }
+
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 28px; }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position: sticky; top:0; z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(11,18,32,0.72);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner{
+    max-width: 1080px; margin: 0 auto; padding: 14px 28px;
+    display:flex; align-items:center; justify-content: space-between;
+  }
+  .logo{
+    font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.5px;
+    color: var(--teal); display:flex; align-items:center; gap:8px;
+  }
+  .logo .dot{ width:7px; height:7px; border-radius:50%; background: var(--teal); box-shadow: 0 0 8px var(--teal); }
+  nav.links{ display:flex; gap: 26px; font-size: 14px; color: var(--text-dim); }
+  nav.links a:hover{ color: var(--text); }
+  @media (max-width: 640px){ nav.links{ display:none; } }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding: 84px 0 60px; }
+  .eyebrow{
+    font-family: var(--font-mono); font-size: 12.5px; color: var(--teal);
+    letter-spacing: 1.5px; text-transform: uppercase;
+    display:flex; align-items:center; gap:10px; margin-bottom: 22px;
+    opacity:0; animation: fadeUp 0.7s ease forwards;
+  }
+  .eyebrow::before{ content:""; width:24px; height:1px; background: var(--teal); }
+
+  h1.name{
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(40px, 7vw, 76px); line-height: 1.02; letter-spacing: -0.02em;
+    opacity:0; animation: fadeUp 0.7s ease 0.08s forwards;
+  }
+  .tagline{
+    margin-top: 18px; max-width: 560px; font-size: 18px; color: var(--text-dim);
+    opacity:0; animation: fadeUp 0.7s ease 0.18s forwards;
+  }
+  .tagline strong{ color: var(--text); font-weight: 600; }
+
+  .hero-actions{
+    display:flex; gap: 14px; margin-top: 30px; flex-wrap: wrap;
+    opacity:0; animation: fadeUp 0.7s ease 0.26s forwards;
+  }
+  .btn{
+    font-family: var(--font-mono); font-size: 13.5px; padding: 12px 20px;
+    border-radius: 8px; border: 1px solid var(--line); display:inline-flex; align-items:center; gap:8px;
+    transition: all .2s ease;
+  }
+  .btn-primary{ background: var(--teal); color: #06231C; border-color: var(--teal); font-weight: 600; }
+  .btn-primary:hover{ background:#4CF0D6; transform: translateY(-1px); }
+  .btn-ghost:hover{ border-color: var(--teal); color: var(--teal); transform: translateY(-1px); }
+
+  /* KPI dashboard row — signature element */
+  .kpi-row{
+    margin-top: 56px; display:grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    opacity:0; animation: fadeUp 0.8s ease 0.36s forwards;
+  }
+  @media (max-width: 780px){ .kpi-row{ grid-template-columns: repeat(2, 1fr); } }
+  .kpi{
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 18px 18px 16px;
+  }
+  .kpi-label{ font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.6px; }
+  .kpi-value{ font-family: var(--font-display); font-size: 20px; font-weight: 600; margin-top: 8px; color: var(--text); }
+  .kpi-sub{ font-family: var(--font-mono); font-size: 11px; color: var(--teal); margin-top: 6px; }
+
+  .chart-panel{
+    margin-top: 14px; background: var(--panel); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 20px 22px 12px; opacity:0; animation: fadeUp 0.8s ease 0.44s forwards;
+  }
+  .chart-head{ display:flex; justify-content: space-between; align-items:baseline; margin-bottom: 6px; }
+  .chart-title{ font-family: var(--font-mono); font-size: 11.5px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .6px; }
+  .chart-title b{ color: var(--text); font-weight:600; }
+  svg.spark{ width: 100%; height: 90px; display:block; }
+  .spark-line{ fill:none; stroke: var(--teal); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 900; stroke-dashoffset: 900; animation: draw 1.6s 0.6s ease forwards; }
+  .spark-area{ fill: url(#sparkFill); opacity: 0; animation: fadeIn 1s 1.4s ease forwards; }
+  .chart-foot{ display:flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10.5px; color: var(--text-dim); padding: 4px 2px 10px; }
+
+  @keyframes fadeUp{ from{ opacity:0; transform: translateY(14px);} to{ opacity:1; transform: translateY(0);} }
+  @keyframes fadeIn{ to{ opacity:1; } }
+  @keyframes draw{ to{ stroke-dashoffset: 0; } }
+
+  /* ---------- SECTIONS ---------- */
+  section{ padding: 72px 0; border-top: 1px solid var(--line); }
+  .section-head{ display:flex; align-items: baseline; gap: 14px; margin-bottom: 38px; }
+  .section-tag{ font-family: var(--font-mono); font-size: 12px; color: var(--teal); }
+  h2.section-title{ font-family: var(--font-display); font-size: clamp(24px,3.4vw,32px); font-weight: 600; }
+
+  .reveal{ opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity: 1; transform: translateY(0); }
+
+  /* Objectif */
+  .objectif p{ font-size: 19px; max-width: 680px; color: var(--text); line-height: 1.7; }
+  .objectif p + p{ margin-top: 14px; color: var(--text-dim); }
+
+  /* Formation timeline */
+  .timeline{ position: relative; padding-left: 26px; }
+  .timeline::before{ content:""; position:absolute; left:5px; top:6px; bottom:6px; width:1px; background: var(--line); }
+  .t-item{ position: relative; padding-bottom: 34px; }
+  .t-item:last-child{ padding-bottom: 0; }
+  .t-item::before{ content:""; position:absolute; left:-26px; top:4px; width:11px; height:11px; border-radius:50%;
+    background: var(--bg); border: 2px solid var(--teal); }
+  .t-date{ font-family: var(--font-mono); font-size: 12px; color: var(--amber); }
+  .t-title{ font-family: var(--font-display); font-size: 19px; font-weight: 600; margin-top: 4px; }
+  .t-org{ font-size: 14px; color: var(--text-dim); margin-top: 2px; }
+  .t-desc{ font-size: 14.5px; color: var(--text-dim); margin-top: 8px; max-width: 560px; }
+
+  /* Compétences */
+  .skills-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 760px){ .skills-grid{ grid-template-columns: 1fr; } }
+  .skill-panel{ background: var(--panel); border:1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+  .skill-panel h3{ font-family: var(--font-display); font-size: 16px; font-weight:600; margin-bottom: 16px;
+    display:flex; align-items:center; gap:8px; }
+  .skill-panel h3::before{ content:""; width:8px; height:8px; background: var(--teal); border-radius:2px; }
+  .pill-group{ display:flex; flex-wrap:wrap; gap: 8px; }
+  .pill{
+    font-family: var(--font-mono); font-size: 12px; padding: 7px 12px; border-radius: 7px;
+    background: var(--panel-2); border: 1px solid var(--line); color: var(--text-dim);
+  }
+  .skill-sub{ font-size: 12px; color: var(--text-dim); margin: 14px 0 8px; text-transform: uppercase; letter-spacing: .5px; font-family: var(--font-mono); }
+  .skill-sub:first-of-type{ margin-top: 0; }
+
+  .qualities{ margin-top: 18px; display:flex; flex-wrap:wrap; gap:10px; }
+  .quality{ font-size: 13px; color: var(--teal); font-family: var(--font-mono); border:1px dashed var(--teal-dim); padding: 6px 12px; border-radius: 20px; }
+
+  /* Experience / Projets cards */
+  .cards{ display:flex; flex-direction: column; gap: 16px; }
+  .card{
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 24px 26px; display:grid; grid-template-columns: 150px 1fr; gap: 22px;
+  }
+  @media (max-width: 700px){ .card{ grid-template-columns: 1fr; gap: 10px; } }
+  .card-date{ font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); }
+  .card-body h3{ font-family: var(--font-display); font-size: 18px; font-weight: 600; }
+  .card-role{ font-size: 13.5px; color: var(--teal); margin-top: 2px; font-family: var(--font-mono); }
+  .card-body ul{ margin-top: 12px; padding-left: 18px; color: var(--text-dim); font-size: 14px; }
+  .card-body li{ margin-bottom: 5px; }
+  .badge{
+    display:inline-block; margin-top: 12px; font-family: var(--font-mono); font-size: 11px;
+    color: var(--amber); border: 1px solid rgba(245,166,35,0.4); padding: 4px 10px; border-radius: 20px;
+  }
+  .card-link{ display:inline-flex; align-items:center; gap:6px; margin-top: 14px; font-family: var(--font-mono);
+    font-size: 12.5px; color: var(--teal); border-bottom: 1px solid transparent; }
+  .card-link:hover{ border-color: var(--teal); }
+
+  /* Contact / footer */
+  .contact-grid{ display:grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: start; }
+  @media (max-width: 760px){ .contact-grid{ grid-template-columns: 1fr; } }
+  .contact-grid h2{ font-family: var(--font-display); font-size: clamp(26px,4vw,36px); font-weight: 700; line-height: 1.15; }
+  .contact-grid > div > p{ color: var(--text-dim); margin-top: 14px; max-width: 420px; }
+  .contact-list{ display:flex; flex-direction: column; gap: 14px; }
+  .contact-row{
+    display:flex; align-items:center; justify-content: space-between; background: var(--panel);
+    border:1px solid var(--line); border-radius: 10px; padding: 14px 16px; font-family: var(--font-mono); font-size: 13.5px;
+  }
+  .contact-row span.label{ color: var(--text-dim); }
+  .contact-row a:hover{ color: var(--teal); }
+
+  footer{ padding: 34px 0 50px; border-top: 1px solid var(--line); }
+  .foot-inner{ display:flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="dot"></span>JULES.TERLEZ</div>
+    <nav class="links">
+      <a href="#formation">Formation</a>
+      <a href="#competences">Compétences</a>
+      <a href="#experience">Expérience</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="eyebrow">Data Analyst · Nancy, France</div>
+    <h1 class="name">Jules Terlez</h1>
+    <p class="tagline">Master Data Science — je transforme des <strong>données complexes</strong> en rapports concrets et compréhensibles pour guider la prise de décision.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#contact">Me contacter</a>
+      <a class="btn btn-ghost" href="#experience">Voir l'expérience</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn btn-ghost" href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-label">Formation</div>
+        <div class="kpi-value">Master ISC</div>
+        <div class="kpi-sub">Univ. de Lorraine · 2024–2026</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Stack</div>
+        <div class="kpi-value">SQL · Python · R</div>
+        <div class="kpi-sub">BigQuery · GCP</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Restitution</div>
+        <div class="kpi-value">Tableau · Power BI</div>
+        <div class="kpi-sub">Excel avancé</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Concours IMIC-25</div>
+        <div class="kpi-value">2ᵉ place</div>
+        <div class="kpi-sub">Prix du jury</div>
+      </div>
+    </div>
+
+    <div class="chart-panel">
+      <div class="chart-head">
+        <div class="chart-title">Parcours <b>2021 → 2026</b></div>
+        <div class="chart-title">licence → master → stage SFR</div>
+      </div>
+      <svg class="spark" viewBox="0 0 600 90" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2FE0C4" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#2FE0C4" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <polygon class="spark-area" points="0,80 60,68 120,70 180,55 240,58 300,40 360,44 420,26 480,30 540,14 600,10 600,90 0,90"/>
+        <polyline class="spark-line" points="0,80 60,68 120,70 180,55 240,58 300,40 360,44 420,26 480,30 540,14 600,10"/>
+      </svg>
+      <div class="chart-foot"><span>Licence EEAPR</span><span>Master ISC</span><span>Stage — Data Analyst, SFR</span></div>
+    </div>
+  </section>
+
+  <section id="objectif" class="objectif reveal">
+    <div class="section-head"><span class="section-tag">01</span><h2 class="section-title">Objectif</h2></div>
+    <p>Rejoindre une équipe en tant que <strong style="color:var(--text)">Data Analyst</strong>.</p>
+    <p>Transformer des données complexes en rapports concrets et compréhensibles pour guider la prise de décision — de l'extraction SQL à la restitution sur Tableau ou Power BI.</p>
+  </section>
+
+  <section id="formation" class="reveal">
+    <div class="section-head"><span class="section-tag">02</span><h2 class="section-title">Formation</h2></div>
+    <div class="timeline">
+      <div class="t-item">
+        <div class="t-date">2024 — 2026</div>
+        <div class="t-title">Master Ingénierie des Systèmes Complexes</div>
+        <div class="t-org">Université de Lorraine, Faculté des Sciences et Technologies — Nancy</div>
+        <div class="t-desc">Cours clés : Science des données et IA, Cybersécurité des systèmes, Ingénierie système, Réseaux.</div>
+      </div>
+      <div class="t-item">
+        <div class="t-date">2021 — 2024</div>
+        <div class="t-title">Licence Sciences pour l'Ingénieur — EEAPR</div>
+        <div class="t-org">Université de Lorraine, Faculté des Sciences et Technologies — Nancy</div>
+        <div class="t-desc">Cours clés : Automatique, Génie informatique, Traitement du signal, Réseaux, Télécoms.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="competences" class="reveal">
+    <div class="section-head"><span class="section-tag">03</span><h2 class="section-title">Compétences techniques</h2></div>
+    <div class="skills-grid">
+      <div class="skill-panel">
+        <h3>Analyse de données</h3>
+        <div class="skill-sub">Base de données</div>
+        <div class="pill-group"><span class="pill">SQL</span><span class="pill">BigQuery</span><span class="pill">GCP</span></div>
+        <div class="skill-sub">Programmation</div>
+        <div class="pill-group"><span class="pill">Python</span><span class="pill">Pandas</span><span class="pill">NumPy</span><span class="pill">R</span></div>
+        <div class="skill-sub">Datavisualisation</div>
+        <div class="pill-group"><span class="pill">Tableau</span><span class="pill">Power BI</span><span class="pill">Excel</span><span class="pill">Power Query</span><span class="pill">Power Pivot</span></div>
+      </div>
+      <div class="skill-panel">
+        <h3>Environnement technique</h3>
+        <div class="skill-sub">Workflow</div>
+        <div class="pill-group"><span class="pill">Jupyter</span><span class="pill">VS Code</span><span class="pill">Git</span><span class="pill">Linux</span></div>
+        <div class="skill-sub">Écosystème data</div>
+        <div class="pill-group"><span class="pill">Airflow</span><span class="pill">Spark</span><span class="pill">dbt</span></div>
+        <div class="qualities">
+          <span class="quality">Rigueur scientifique</span>
+          <span class="quality">Agilité</span>
+          <span class="quality">Autonomie</span>
+          <span class="quality">Communication &amp; synthèse</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" class="reveal">
+    <div class="section-head"><span class="section-tag">04</span><h2 class="section-title">Expérience &amp; Projets</h2></div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-date">Mars 2026<br>— Août 2026</div>
+        <div class="card-body">
+          <h3>Data Analyst — Chef de projet, Intelligence de la donnée</h3>
+          <div class="card-role">Stage de fin d'études · SFR</div>
+          <ul>
+            <li>Développement d'un outil d'aide à la décision pour améliorer la qualité des données des routes optiques</li>
+            <li>Identification, nettoyage et traitement de données pour garantir leur pertinence — SQL &amp; Python</li>
+            <li>Analyse de données et vulgarisation des résultats pour des préconisations opérationnelles sur Tableau</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-date">Oct. 2024<br>— Juil. 2025</div>
+        <div class="card-body">
+          <h3>Optimisation de flux logistique par agents décisionnels</h3>
+          <div class="card-role">Projet universitaire · Java</div>
+          <ul>
+            <li>Optimisation et simulation du nouveau système de tri postal de Nantes par agents autonomes</li>
+          </ul>
+          <span class="badge">🏆 Concours IMIC-25 — 2ᵉ place, prix du jury (oct. 2025)</span>
+          <div><a class="card-link" href="#" target="_blank" rel="noopener">Voir le projet complet →</a></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-date">Oct. 2024<br>— Avril 2025</div>
+        <div class="card-body">
+          <h3>IHM de contrôle et de monitoring de données robotiques</h3>
+          <div class="card-role">Projet universitaire · Java</div>
+          <ul>
+            <li>Développement d'une application Java pour visualiser les données d'un robot mobile en temps réel</li>
+            <li>Aide à la prise de décision pour le pilotage à distance</li>
+          </ul>
+          <div><a class="card-link" href="#" target="_blank" rel="noopener">Voir le projet complet →</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="reveal">
+    <div class="contact-grid">
+      <div>
+        <h2>Discutons de votre prochain projet data.</h2>
+        <p>Disponible pour un poste de Data Analyst. Réponse rapide par email ou téléphone.</p>
+      </div>
+      <div class="contact-list">
+        <div class="contact-row"><span class="label">Email</span><a href="mailto:terlezjules@gmail.com">terlezjules@gmail.com</a></div>
+        <div class="contact-row"><span class="label">Téléphone</span><a href="tel:+33782661538">07 82 66 15 38</a></div>
+        <div class="contact-row"><span class="label">Localisation</span><span>Nancy, Grand Est</span></div>
+        <div class="contact-row"><span class="label">LinkedIn</span><a href="https://www.linkedin.com/" target="_blank" rel="noopener">Voir le profil ↗</a></div>
+        <div class="contact-row"><span class="label">GitHub</span><a href="https://github.com/" target="_blank" rel="noopener">Voir les projets ↗</a></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap foot-inner">
+    <span>© 2026 Jules Terlez</span>
+    <span>Français (natif) · Anglais (courant) · Permis B</span>
+  </div>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  els.forEach(el=> io.observe(el));
+</script>
+
+</body>
+</html>
